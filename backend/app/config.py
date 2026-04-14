@@ -1,4 +1,5 @@
-DB_PATH = "../../data/etymograph.db"
+import os
+DB_PATH = os.environ.get("ETYMOGRAPH_DB", "../../data/etymograph.db")
 
 RELATION_COLORS = {
     "cognate": "#60a5fa",
