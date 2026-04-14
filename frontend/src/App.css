@@ -1,0 +1,325 @@
+/* ── Literary etymology explorer ── */
+
+.app-root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f0e8;
+}
+
+/* ── Top bar with search ── */
+.top-bar {
+  flex-shrink: 0;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #e0d8c8;
+  background: #fffcf5;
+  z-index: 10;
+}
+
+.top-bar .brand {
+  font-family: "Georgia", serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #5c3d2e;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.top-bar .search-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 700px;
+}
+
+.top-bar .mode-toggle {
+  display: flex;
+  gap: 2px;
+  background: #f0ebe0;
+  border-radius: 6px;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.top-bar .mode-toggle button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-family: -apple-system, sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: transparent;
+  color: #8a7b6a;
+}
+
+.top-bar .mode-toggle button.active {
+  background: #5c3d2e;
+  color: #f5f0e8;
+}
+
+.search-input {
+  flex: 1;
+  position: relative;
+}
+
+.search-input input {
+  width: 100%;
+  padding: 9px 14px;
+  border: 1px solid #d4c9b5;
+  border-radius: 6px;
+  background: #fffcf5;
+  color: #2c2420;
+  font-size: 0.92rem;
+  font-family: "Georgia", serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input input:focus {
+  border-color: #5c3d2e;
+}
+
+.search-input input::placeholder {
+  color: #b8a99a;
+  font-style: italic;
+}
+
+.go-btn {
+  padding: 9px 20px;
+  border: 1px solid #5c3d2e;
+  border-radius: 6px;
+  background: #5c3d2e;
+  color: #f5f0e8;
+  font-size: 0.82rem;
+  font-family: -apple-system, sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.go-btn:hover { background: #7a5440; }
+.go-btn:disabled { opacity: 0.35; cursor: default; }
+
+.filter-btn {
+  padding: 6px 10px;
+  border: 1px solid #d4c9b5;
+  border-radius: 4px;
+  background: transparent;
+  color: #8a7b6a;
+  font-size: 0.72rem;
+  font-family: -apple-system, sans-serif;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.filter-btn:hover { border-color: #5c3d2e; color: #5c3d2e; }
+
+.clear-btn {
+  padding: 6px 10px;
+  border: none;
+  background: none;
+  color: #b0a290;
+  font-size: 0.72rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.clear-btn:hover { color: #5c3d2e; }
+
+/* ── Filter dropdown ── */
+.filter-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  background: #fffcf5;
+  border: 1px solid #d4c9b5;
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  z-index: 20;
+  width: 340px;
+  animation: fadeIn 0.2s ease;
+}
+
+/* ── Graph area ── */
+.graph-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Autocomplete dropdown ── */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fffcf5;
+  border: 1px solid #d4c9b5;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  max-height: 300px;
+  overflow: auto;
+  z-index: 30;
+  padding: 4px;
+  margin-top: 4px;
+}
+
+.autocomplete-item {
+  padding: 9px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+
+.autocomplete-item:hover { background: #f0ebe0; }
+
+.autocomplete-item .label {
+  font-weight: 500;
+  color: #2c2420;
+  font-size: 0.92rem;
+  font-family: "Georgia", serif;
+}
+
+.autocomplete-item .desc {
+  font-size: 0.75rem;
+  color: #9a8b78;
+  margin-top: 2px;
+  font-family: -apple-system, sans-serif;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.empty-state .title {
+  font-size: 1rem;
+  color: #8a7b6a;
+  font-style: italic;
+  font-family: "Georgia", serif;
+  margin-top: 16px;
+}
+
+.empty-state .hint {
+  font-size: 0.82rem;
+  color: #b0a290;
+  font-family: -apple-system, sans-serif;
+  margin-top: 4px;
+}
+
+/* ── Loading ── */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245,240,232,0.8);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #d4c9b5;
+  border-top-color: #5c3d2e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+.loading-text { color: #5c3d2e; font-size: 0.9rem; font-style: italic; font-family: "Georgia", serif; }
+.loading-subtext { color: #9a8b78; font-size: 0.72rem; margin-top: 4px; font-family: -apple-system, sans-serif; }
+
+/* ── Bottom info bar ── */
+.info-bar {
+  flex-shrink: 0;
+  padding: 8px 24px;
+  border-top: 1px solid #e0d8c8;
+  background: #fffcf5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  font-family: -apple-system, sans-serif;
+  color: #8a7b6a;
+  min-height: 36px;
+}
+
+.info-bar .pill {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.72rem;
+}
+
+.info-bar .pill.ok { background: #e8f0e0; color: #4a6741; }
+.info-bar .pill.warn { background: #f0e8d8; color: #8b6b3a; }
+.info-bar .pill.err { background: #f0e0e0; color: #8b3a3a; }
+
+/* ── Detail panel (right side) ── */
+.detail-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  width: 320px;
+  height: 100%;
+  animation: slideIn 0.3s ease;
+}
+
+.detail-card {
+  background: #fffcf5;
+  border-left: 1px solid #e0d8c8;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Split view (timeline + graph side by side) ── */
+.split-view {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.split-timeline {
+  width: 380px;
+  min-width: 320px;
+  max-width: 420px;
+  border-right: 1px solid #e0d8c8;
+  overflow-y: auto;
+  background: #faf7f0;
+  flex-shrink: 0;
+}
+
+.split-graph {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Fade in up (dictionary section) ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Edge legend (inline in info bar) ── */
+.edge-legend { display: flex; gap: 10px; flex-wrap: wrap; }
+.edge-legend span { display: flex; align-items: center; gap: 3px; font-size: 0.68rem; color: #8a7b6a; }
+.edge-legend .dot { width: 7px; height: 7px; border-radius: 50%; }
